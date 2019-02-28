@@ -31,8 +31,46 @@ public class TempService {
         tempRepository.save(temp);
     }
 
-    public void addTemp(Temp temp){
+    public void addTemp(Temp temp) {
         temp.setId(0); //if id is sent, with post, remove it and use incremented id
         tempRepository.save(temp);
+    }
+
+    public List<Temp> getTempsByMonthAndYear(String Month, String Year) {
+        String searchTerm = String.format(".%s.%s", Month, Year);
+        return tempRepository.findAllByDateContainingIgnoreCase(searchTerm);
+
+
+    }
+
+    public List<Temp> getTempsByDayMonthAndYear(String day, String Month, String Year) {
+        String searchTerm = String.format("%s.%s.%s", day, Month, Year);
+        return tempRepository.findAllByDateContainingIgnoreCase(searchTerm);
+
+
+    }
+
+    public List<Temp> getTempsByYear(String year) {
+        String searchTerm = String.format(".%s ", year);
+        return tempRepository.findAllByDateContainingIgnoreCase(searchTerm);
+    }
+
+    public List<Temp> getTempsList(String day, String month, String year, String hour) {
+        //TODO improve
+        if (isNullOrEmpty(day) && isNullOrEmpty(month)) {
+
+            return tempRepository.findAllByDateContainingIgnoreCase(String.format(".%s ", year));
+        } else if (isNullOrEmpty(day)) {
+
+            return tempRepository.findAllByDateContainingIgnoreCase(String.format(".%s.%s", month, year));
+        } else if (!isNullOrEmpty(day) && !isNullOrEmpty(month) && !isNullOrEmpty(year) && !isNullOrEmpty(hour)) {
+
+            return tempRepository.findAllByDateContainingIgnoreCase(String.format("%s.%s.%s %s:", day, month, year, hour));
+
+        } else return tempRepository.findAllByDateContainingIgnoreCase(String.format("%s.%s.%s ", day, month, year));
+    }
+
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.trim().isEmpty();
     }
 }

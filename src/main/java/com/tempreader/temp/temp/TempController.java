@@ -37,9 +37,36 @@ public class TempController {
     }
 
     @PostMapping(value = "/temps/add", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value= "Add a Temp")
+    @ApiOperation(value = "Add a Temp")
     public void addTemp(@RequestBody Temp temp) {
         tempservice.addTemp(temp);
+    }
+
+    @RequestMapping(value = "/temps/month", method = RequestMethod.GET)
+    public List<Temp> paramMonthTemp(@RequestParam("month") String month, @RequestParam("year") String year) {
+        return tempservice.getTempsByMonthAndYear(month, year);
+    }
+
+    @RequestMapping(value = "/temps/day", method = RequestMethod.GET)
+    public List<Temp> paramDayTemp(@RequestParam("day") String day, @RequestParam("month") String month, @RequestParam("year") String year) {
+        return tempservice.getTempsByDayMonthAndYear(day, month, year);
+    }
+
+    @GetMapping(value = "temps/year")
+    public List<Temp> paramYearTemp(@RequestParam("year") String year) {
+        return tempservice.getTempsByYear(year);
+    }
+
+    @RequestMapping(value = "/temps/list", method = RequestMethod.GET)
+    public List<Temp> paramListTemp(@RequestParam(value = "day", required = false) String day,
+                                    @RequestParam(value = "month", required = false) String month,
+                                    @RequestParam(value = "year") String year,
+                                    @RequestParam(value= "hour", required = false) String hour) {
+        System.out.println(day);
+        System.out.println(month);
+        System.out.println(year);
+        System.out.println(hour);
+        return tempservice.getTempsList(day, month, year, hour);
     }
 
 }
