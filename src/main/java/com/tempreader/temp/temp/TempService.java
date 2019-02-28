@@ -27,7 +27,12 @@ public class TempService {
         return tempRepository.findById(searchId);
     }
 
-    public void addTemp(Temp temp) {
+    public void updateTemp(Temp temp) {
+        tempRepository.save(temp);
+    }
+
+    public void addTemp(Temp temp){
+        temp.setId(0); //if id is sent, with post, remove it and use incremented id
         tempRepository.save(temp);
     }
 }
