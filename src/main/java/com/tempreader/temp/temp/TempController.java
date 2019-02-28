@@ -25,7 +25,7 @@ public class TempController {
     }
 
     @GetMapping("/temps/{id}")
-    @ApiOperation(value = "Search and Show 1 Temp with the Id", response = List.class)
+    @ApiOperation(value = "Search and Show 1 Temp with the Id", response = Temp.class)
     public Temp getTemp(@PathVariable int id) {
         return tempservice.getTemp(id);
     }
