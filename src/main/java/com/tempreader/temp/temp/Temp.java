@@ -10,17 +10,17 @@ import javax.persistence.*;
 @Entity
 public class Temp {
     //1,30.12f,22.2f,"27.02.19 15.11.44"
-    @ApiModelProperty(example = "1", readOnly = true)
+//    @ApiModelProperty(example = "1", readOnly = true)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     @ApiModelProperty(example = "30.12", readOnly = true)
-    @Column(length = 10)
-    private float humidity;
+    @Column(length = 6)
+    private double humidity;
     @ApiModelProperty(example = "22.2", readOnly = true)
-    @Column(length = 10)
-    private float temperature;
-    @ApiModelProperty(example = "27.02.19 15.11.44", readOnly = true)
+    @Column(length = 6)
+    private double temperature;
+    @ApiModelProperty(example = "27.02.19 15:11:44", readOnly = true)
     @Column(length = 20)
     private String date;
 
@@ -43,19 +43,19 @@ public class Temp {
         this.id = id;
     }
 
-    public float getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(float humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
