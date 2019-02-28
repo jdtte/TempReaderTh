@@ -2,22 +2,36 @@ package com.tempreader.temp.temp;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 
 @ApiModel("Temperature")
+@Entity
 public class Temp {
     //1,30.12f,22.2f,"27.02.19 15.11.44"
-    @ApiModelProperty(example="1", readOnly = true)
-    private int id;
-    @ApiModelProperty(example="30.12", readOnly = true)
+    @ApiModelProperty(example = "1", readOnly = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
+    @ApiModelProperty(example = "30.12", readOnly = true)
+    @Column(length = 10)
     private float humidity;
-    @ApiModelProperty(example="22.2", readOnly = true)
+    @ApiModelProperty(example = "22.2", readOnly = true)
+    @Column(length = 10)
     private float temperature;
-    @ApiModelProperty(example="27.02.19 15.11.44", readOnly = true)
+    @ApiModelProperty(example = "27.02.19 15.11.44", readOnly = true)
+    @Column(length = 20)
     private String date;
 
-    public Temp(){
+    public Temp() {
 
     }
+
     public Temp(int id, float humidity, float temperature, String date) {
         this.id = id;
         this.humidity = humidity;
@@ -25,11 +39,11 @@ public class Temp {
         this.date = date;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
