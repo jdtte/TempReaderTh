@@ -16,7 +16,7 @@ public class TempController {
     @GetMapping("/api/temps")
     @ApiOperation(value = "Show 1 Temp", response = Temp.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Server reachable")})
+     @ApiResponse(code = 200, message = "Server reachable")})
     public List<Temp> getTemps(){
         return tempservice.getTemps();
     }
