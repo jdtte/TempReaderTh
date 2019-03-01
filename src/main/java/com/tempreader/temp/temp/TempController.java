@@ -60,13 +60,12 @@ public class TempController {
     @RequestMapping(value = "/temps/list", method = RequestMethod.GET)
     public List<Temp> paramListTemp(@RequestParam(value = "day", required = false) String day,
                                     @RequestParam(value = "month", required = false) String month,
-                                    @RequestParam(value = "year") String year,
-                                    @RequestParam(value= "hour", required = false) String hour) {
+                                    @RequestParam(value = "year") String year){
         System.out.println(day);
         System.out.println(month);
         System.out.println(year);
-        System.out.println(hour);
-        return tempservice.getTempsList(day, month, year, hour);
+
+        return tempservice.getTempsList(day, month, year);
     }
 
 }

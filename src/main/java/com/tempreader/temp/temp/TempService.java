@@ -55,20 +55,17 @@ public class TempService {
         return tempRepository.findAllByDateContainingIgnoreCase(searchTerm);
     }
 
-    public List<Temp> getTempsList(String day, String month, String year, String hour) {
+    public List<Temp> getTempsList(String day, String month, String year) {
         //TODO improve
         if (isNullOrEmpty(day) && isNullOrEmpty(month)) {
-
             return tempRepository.findAllByDateContainingIgnoreCase(String.format(".%s ", year));
-        } else if (isNullOrEmpty(day)) {
 
+        } else if (isNullOrEmpty(day) && !isNullOrEmpty(month)) {
             return tempRepository.findAllByDateContainingIgnoreCase(String.format(".%s.%s", month, year));
-        } else if (!isNullOrEmpty(day) && !isNullOrEmpty(month) && !isNullOrEmpty(year) && !isNullOrEmpty(hour)) {
-
-            return tempRepository.findAllByDateContainingIgnoreCase(String.format("%s.%s.%s %s:", day, month, year, hour));
 
         } else return tempRepository.findAllByDateContainingIgnoreCase(String.format("%s.%s.%s ", day, month, year));
     }
+
 
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
