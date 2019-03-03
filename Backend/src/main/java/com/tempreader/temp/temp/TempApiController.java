@@ -31,7 +31,7 @@ public class TempApiController {
     }
 
     @PutMapping(value = "/temps/{id}", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "Updates for a Temp with the Id", response = Temp.class)
+    @ApiOperation(value = "Updates for a Temp with the id", response = Temp.class)
     public void updateTemp(@RequestBody Temp temp) {
         tempservice.updateTemp(temp);
     }
