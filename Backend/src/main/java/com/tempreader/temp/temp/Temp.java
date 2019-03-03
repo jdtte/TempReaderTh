@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 
 
-
 @Entity
 public class Temp {
     //1,30.12f,22.2f,"27.02.19 15.11.44"
@@ -15,13 +14,13 @@ public class Temp {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @ApiModelProperty(notes = "The database generated Temp ID")
     private long id;
-    @ApiModelProperty(notes="The humidity value",example = "30.12", readOnly = true)
+    @ApiModelProperty(notes = "The humidity value", example = "30.12", readOnly = true)
     @Column(length = 6)
     private double humidity;
-    @ApiModelProperty(notes="The Temperature value",example = "22.2", readOnly = true)
+    @ApiModelProperty(notes = "The Temperature value", example = "22.2", readOnly = true)
     @Column(length = 6)
     private double temperature;
-    @ApiModelProperty(notes="The Date of the Temp",example = "27.02.19 15:11:44", readOnly = true)
+    @ApiModelProperty(notes = "The Date of the Temp", example = "27.02.19 15:11:44", readOnly = true)
     @Column(length = 20)
     private String date;
 

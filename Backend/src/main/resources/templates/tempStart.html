@@ -3,18 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Temps</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/tempStart.css" />
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/tempStart.css"/>
 </head>
-<body>
-<h1 th:text="'Hello ' + ${t}"></h1>
-<h2 th:text="${lastTemp.id}+' '+ ${lastTemp.date}"></h2>
-<ul>
-    <li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>
 
-</ul>
+<body>
+<main role="main" class="container">
+    <div class="row" id="topCards">
+
+        <div class="col-md-4">
+            <div class="card">
+                <h4>22.01.19 12:30</h4>
+                <hr/>
+                <p>Messdatum</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h4>23,1 °C</h4>
+                <hr/>
+                <p>Temperatur</p>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-4 ">
+            <div class="card">
+                <h4>32,9 %</h4>
+                <hr/>
+                <p>Feuchtigkeit</p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <h2>Durschnittswerte </h2>
+
+    <div class="row">
+        <div class="col-md-4" id="period-choose">
+            <div class="card">
+
+                test<hr/>
+                test<hr/>
+                test<hr/>
+
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+
+                test
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <h1 th:text="'asdad ' + ${t}"></h1>
+    <h2 th:text="${lastTemp.id}+' '+ ${lastTemp.date}"></h2>
+    <ul>
+        <li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>
+
+    </ul>
+    <h1>h</h1>
+</main>
+
 </body>
 </html>

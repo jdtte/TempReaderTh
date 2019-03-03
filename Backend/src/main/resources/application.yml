@@ -10,6 +10,8 @@ spring:
       path: /h2-console
   profiles:
     include: test
+  thymeleaf:
+    cache: false
 
 #  datasource:
 #    url: jdbc:mysql://localhost/TempDatabase

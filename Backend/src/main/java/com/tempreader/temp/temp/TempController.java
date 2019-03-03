@@ -13,7 +13,7 @@ public class TempController {
 
     @GetMapping("/")
     public String showTemps(Model model) {
-        String t ="test";
+        String t ="werwerwerwerwer";
         model.addAttribute("lastTemp", tempService.getLastTempEntry());
         model.addAttribute("temps",tempService.getTemps());
         model.addAttribute("t",t);
