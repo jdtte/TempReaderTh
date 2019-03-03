@@ -67,6 +67,14 @@ public class TempService {
     }
 
 
+    /**
+     * Creates Temp in Database, used for Test. Data does not get checked.
+     * @param temp
+     */
+    public void createTemp(Temp temp){
+        tempRepository.save(temp);
+    }
+
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }

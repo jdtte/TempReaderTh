@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Api(value = "temps", description = "Operations pertaining Temps")
-public class TempController {
+public class TempApiController {
     @Autowired
     TempService tempservice;
 
@@ -57,10 +57,21 @@ public class TempController {
         return tempservice.getTempsByYear(year);
     }
 
+    /**
+     * Lists Data with the given params.
+     * ex: api/temps/list?year=19&month=03         Lists Data of xx.03.2019
+     * ex: api/temps/list?year=19                  Lists Data of xx.xx.2019
+     * ex: api/temps/list?year=19&month=03?day=20  Lists Data of 20.03.2019
+     *
+     * @param day
+     * @param month
+     * @param year
+     * @return List with Temps
+     */
     @RequestMapping(value = "/temps/list", method = RequestMethod.GET)
     public List<Temp> paramListTemp(@RequestParam(value = "day", required = false) String day,
                                     @RequestParam(value = "month", required = false) String month,
-                                    @RequestParam(value = "year") String year){
+                                    @RequestParam(value = "year") String year) {
         System.out.println(day);
         System.out.println(month);
         System.out.println(year);

@@ -29,7 +29,7 @@ public class Temp {
 
     }
 
-    public Temp(int id, float humidity, float temperature, String date) {
+    public Temp(int id, double humidity, double temperature, String date) {
         this.id = id;
         this.humidity = humidity;
         this.temperature = temperature;
