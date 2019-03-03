@@ -11,6 +11,7 @@
 </head>
 <body>
 <h1 th:text="'Hello ' + ${t}"></h1>
+<h2 th:text="${lastTemp.id}+' '+ ${lastTemp.date}"></h2>
 <ul>
     <li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>
 

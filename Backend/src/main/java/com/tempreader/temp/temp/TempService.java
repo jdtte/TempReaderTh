@@ -75,6 +75,10 @@ public class TempService {
         tempRepository.save(temp);
     }
 
+    public Temp getLastTempEntry(){
+        return tempRepository.findFirstByOrderByIdDesc();
+    }
+
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }

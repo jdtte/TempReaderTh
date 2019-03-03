@@ -14,6 +14,7 @@ public class TempController {
     @GetMapping("/")
     public String showTemps(Model model) {
         String t ="test";
+        model.addAttribute("lastTemp", tempService.getLastTempEntry());
         model.addAttribute("temps",tempService.getTemps());
         model.addAttribute("t",t);
         return "tempStart";
