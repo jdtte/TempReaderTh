@@ -7,7 +7,10 @@
 
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/tempStart.css"/>
+    <script src="tempStart.js"></script>
 </head>
 
 <body>
@@ -30,7 +33,6 @@
         </div>
 
 
-
         <div class="col-md-4 ">
             <div class="card">
                 <h4>32,9 %</h4>
@@ -42,35 +44,132 @@
 
     </div>
 
-    <h2>Durschnittswerte </h2>
+    <h2>Durchschnittswerte </h2>
+
 
     <div class="row">
-        <div class="col-md-4" id="period-choose">
-            <div class="card">
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
 
-                test<hr/>
-                test<hr/>
-                test<hr/>
+                <a class="list-group-item list-group-item-action active" id="list-hour-list" data-toggle="list"
+                   href="#list-hour-tab" role="tab" aria-controls="hour">Letzte Stunde</a>
+
+                <a class="list-group-item list-group-item-action" id="list-day-list" data-toggle="list"
+                   href="#list-day-tab" role="tab" aria-controls="hour">Letzter Tag</a>
+                <a class="list-group-item list-group-item-action" id="list-week-list" data-toggle="list"
+                   href="#list-week-tab" role="tab" aria-controls="week">Letzte Woche</a>
+                <a class="list-group-item list-group-item-action" id="list-month-list" data-toggle="list"
+                   href="#list-month-tab" role="tab" aria-controls="month">Letzter Monat</a>
+            </div>
+        </div>
+        <div class="col-8" id="avgCard">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-hour-tab" role="tabpanel"
+                     aria-labelledby="list-hour-list">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>23,1 °C</h4>
+                                    <hr/>
+                                    <p>Temperatur</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>32,9 %</h4>
+                                    <hr/>
+                                    <p>Feuchtigkeit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="list-day-tab" role="tabpanel" aria-labelledby="list-day-list">
+
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>23,1 °C</h4>
+                                    <hr/>
+                                    <p>Temperatur</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>32,9 %</h4>
+                                    <hr/>
+                                    <p>Feuchtigkeit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="list-week-tab" role="tabpanel" aria-labelledby="list-week-list">
+
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>23,1 °C</h4>
+                                    <hr/>
+                                    <p>Temperatur</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>32,9 %</h4>
+                                    <hr/>
+                                    <p>Feuchtigkeit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="list-month=tab" role="tabpanel" aria-labelledby="list-month-list">
+
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>23,1 °C</h4>
+                                    <hr/>
+                                    <p>Temperatur</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <h4>32,9 %</h4>
+                                    <hr/>
+                                    <p>Feuchtigkeit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-
-                test
-            </div>
-        </div>
-
-    </div>
     </div>
 
-    <h1 th:text="'asdad ' + ${t}"></h1>
-    <h2 th:text="${lastTemp.id}+' '+ ${lastTemp.date}"></h2>
-    <ul>
-        <li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>
 
-    </ul>
-    <h1>h</h1>
+    <!--<h1 th:text="'asdad ' + ${t}"></h1>-->
+    <!--<h2 th:text="${lastTemp.id}+' '+ ${lastTemp.date}"></h2>-->
+    <!--<ul>-->
+        <!--<li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>-->
+
+    <!--</ul>-->
+    <!--<h1>h</h1>-->
 </main>
 
 </body>

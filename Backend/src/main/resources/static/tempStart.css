@@ -1,5 +1,5 @@
 html, body{
-    background-color: black;
+    background-color:  #323641;
 }
 
 main.container {
@@ -9,28 +9,48 @@ main.container {
     color: white;
 }
 
-#topCards .col-md-4{
 
-    padding: 15px;
-}
 
-#topCards .card{
+
+ #topCards .card, #avgCard .card .card{
     padding: 20px 20px;
-    background-color:grey;
+    background-color:#56575b;
 }
-#topCards .card h4{
+ #avgCard {
+     padding: 20px 20px;
+ }
+ #avgCard .card{
+     background-color: #323641;
+ }
+ .card h4{
     font-size: 36px;
     font-weight: 500;
     text-align: center;
     margin-bottom: 4px;
 }
-#topCards .card  p{
+.card  p{
     text-align: center;
     margin:0px;
     font-size: 20px;
 }
 
-#period-choose  .card{
-    background-color: grey;
-
+#list-tab{
+    background:  #323641;
 }
+
+#list-tab .active{
+    background: darkcyan !important;
+}
+#list-tab .list-group-item{
+    background-color: #56575b;
+    color: white;
+    padding:5px 15px 5px 20px;
+    font-size: 18px;
+}
+.col-4, .col-md-4{
+    padding:20px;
+}
+#list-tab{
+    height: 152.2px;
+}
+

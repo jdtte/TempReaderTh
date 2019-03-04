@@ -14,6 +14,7 @@ public class TempController {
     @GetMapping("/")
     public String showTemps(Model model) {
         String t ="werwerwerwerwer";
+        // TODO remove year if lastTempDate
         model.addAttribute("lastTemp", tempService.getLastTempEntry());
         model.addAttribute("temps",tempService.getTemps());
         model.addAttribute("t",t);
