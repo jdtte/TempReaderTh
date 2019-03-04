@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class TempService {
@@ -63,14 +64,24 @@ public class TempService {
 
     /**
      * Creates Temp in Database, used for Test. Data does not get checked.
+     *
      * @param temp
      */
-    public void createTemp(Temp temp){
+    public void createTemp(Temp temp) {
         tempRepository.save(temp);
     }
 
-    public Temp getLastTempEntry(){
-        return tempRepository.findFirstByOrderByIdDesc();
+    public Temp getLastTempEntry() {
+        Temp retTemp = tempRepository.findFirstByOrderByIdDesc();
+        String s = retTemp.getDate();
+        Pattern pattern = Pattern.compile("\\.\\d{2}\\s");
+
+        s = s.replaceAll("\\.\\d{2}\\s", ". ");
+        s = s.replaceAll("\\:\\d{2}$", "");
+        retTemp.setDate(s);
+
+//        s = Pattern.matches( "\\.\\d{2}\\s", "Hallo Welt");
+        return retTemp;
     }
 
     private boolean isNullOrEmpty(String str) {
