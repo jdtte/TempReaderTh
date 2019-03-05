@@ -3,10 +3,14 @@ package com.tempreader.temp.temp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class TempService {
@@ -74,7 +78,7 @@ public class TempService {
     public Temp getLastTempEntry() {
         Temp retTemp = tempRepository.findFirstByOrderByIdDesc();
         String s = retTemp.getDate();
-        Pattern pattern = Pattern.compile("\\.\\d{2}\\s");
+//        Pattern pattern = Pattern.compile("\\.\\d{2}\\s");
 
         s = s.replaceAll("\\.\\d{2}\\s", ". ");
         s = s.replaceAll("\\:\\d{2}$", "");
@@ -84,15 +88,33 @@ public class TempService {
         return retTemp;
     }
 
+
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
 
-    public List<Temp> getTempsByLastHours(int hour){
-        //startend vom letzten element
-        // die stunden zurückgehen, stunden identifizieren mit regex
-//Stream alle Daten solange bis zb  bei 18:30 und -1 Das Regex 17:30 trifft PROBLEM wenn keine Messung 17:30 dann so nah wie möglich?
-    return null;
+    /**
+     * Gets Temps in Temps from last temp -hours entered.
+     * ex: Temps of last Hours: hours=1 last30Days =720
+     * @param hours hours for offset
+     * @return List of Temps
+     */
+    public List<Temp> getTempsByLastHours(int hours) {
+        DateTimeFormatter tempFormat = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
+        Temp lastTemp = tempRepository.findFirstByOrderByIdDesc();
+
+        List<Temp> test = tempRepository.findAllByOrderByIdDesc();
+
+        LocalDateTime start = LocalDateTime.parse(lastTemp.getDate(), tempFormat);
+
+
+        List<Temp> result = test.stream()
+                .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) <= -hours)
+                .collect(Collectors.toList());
+
+        result.forEach(System.out::println);
+        return result;
+
 
     }
 
