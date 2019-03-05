@@ -66,4 +66,14 @@ public class Temp {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Temp{" +
+                "id=" + id +
+                ", humidity=" + humidity +
+                ", temperature=" + temperature +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

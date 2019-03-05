@@ -87,4 +87,13 @@ public class TempService {
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
+
+    public List<Temp> getTempsByLastHours(int hour){
+        //startend vom letzten element
+        // die stunden zurückgehen, stunden identifizieren mit regex
+//Stream alle Daten solange bis zb  bei 18:30 und -1 Das Regex 17:30 trifft PROBLEM wenn keine Messung 17:30 dann so nah wie möglich?
+    return null;
+
+    }
+
 }
