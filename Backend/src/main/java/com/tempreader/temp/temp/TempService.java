@@ -79,7 +79,7 @@ public class TempService {
         Temp retTemp = tempRepository.findFirstByOrderByIdDesc();
         String s = retTemp.getDate();
 //        Pattern pattern = Pattern.compile("\\.\\d{2}\\s");
-
+        //TODO maybe replace with stringutils for better performance?
         s = s.replaceAll("\\.\\d{2}\\s", ". ");
         s = s.replaceAll("\\:\\d{2}$", "");
         retTemp.setDate(s);
@@ -96,10 +96,12 @@ public class TempService {
     /**
      * Gets Temps in Temps from last temp -hours entered.
      * ex: Temps of last Hours: hours=1 last30Days =720
+     *
      * @param hours hours for offset
      * @return List of Temps
      */
     public List<Temp> getTempsByLastHours(int hours) {
+        //TODO test
         DateTimeFormatter tempFormat = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
         Temp lastTemp = tempRepository.findFirstByOrderByIdDesc();
 
@@ -114,8 +116,26 @@ public class TempService {
 
         result.forEach(System.out::println);
         return result;
-
-
     }
+
+    public double getAverageTempInDurationHours(int hours) {
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        double sum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getTemperature())
+                .sum();
+        //TODO test
+        return sum / TempsListInHour.size();
+    }
+
+    public double getAverageHumidityInDurationHours(int hours) {
+        //TODO test
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        double sum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getHumidity())
+                .sum();
+
+        return sum / TempsListInHour.size();
+    }
+
 
 }
