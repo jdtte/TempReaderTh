@@ -92,7 +92,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4>23,1 °C</h4>
+                                    <h4 th:text="${avgTempsIn24Hour}+' °C'"></h4>
                                     <hr/>
                                     <p>Temperatur</p>
                                 </div>
@@ -101,7 +101,7 @@
 
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4>32,9 %</h4>
+                                    <h4 th:text="${avgHumidityIn24Hour}+' %'"></h4>
                                     <hr/>
                                     <p>Feuchtigkeit</p>
                                 </div>
@@ -116,7 +116,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4>23,1 °C</h4>
+                                    <h4 th:text="${avgTempsIn168Hour}+' °C'"></h4>
                                     <hr/>
                                     <p>Temperatur</p>
                                 </div>
@@ -125,7 +125,7 @@
 
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4>32,9 %</h4>
+                                    <h4 th:text="${avgHumidityIn168Hour}+' %'"></h4>
                                     <hr/>
                                     <p>Feuchtigkeit</p>
                                 </div>
@@ -140,7 +140,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4>23,1 °C</h4>
+                                    <h4 th:text="${avgTempIn720Hour}+' °C'"></h4>
                                     <hr/>
                                     <p>Temperatur</p>
                                 </div>
@@ -149,7 +149,7 @@
 
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4>32,9 %</h4>
+                                    <h4 th:text="${avgHumidityIn720Hour}+' %'"></h4>
                                     <hr/>
                                     <p>Feuchtigkeit</p>
                                 </div>
