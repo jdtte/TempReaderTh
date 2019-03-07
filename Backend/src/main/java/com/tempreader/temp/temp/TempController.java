@@ -15,11 +15,9 @@ public class TempController {
 
     @GetMapping("/")
     public String showTemps(Model model) {
-        String t ="werwerwerwerwer";
+
         // TODO remove year if lastTempDate
-
-
-      model.addAttribute("lastTemp", tempService.getLastTempEntry());
+        model.addAttribute("lastTemp", tempService.getLastTempEntry());
         //avg 1 hour
         model.addAttribute("avgTempsInOneHour",tempService.getAverageTempInDurationHours(1));
         model.addAttribute("avgHumidityInOneHour", tempService.getAverageHumidityInDurationHours(1));
@@ -32,8 +30,7 @@ public class TempController {
         //avg720hrs = 30 Tage
         model.addAttribute("avgTempsIn720Hour", tempService.getAverageTempInDurationHours(720));
         model.addAttribute("avgHumidityIn720Hour", tempService.getAverageHumidityInDurationHours(720));
-        model.addAttribute("temps",tempService.getTemps());
-        model.addAttribute("t",t);
+
         return "tempStart";
     }
 }

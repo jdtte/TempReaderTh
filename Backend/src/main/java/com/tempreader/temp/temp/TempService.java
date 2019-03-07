@@ -127,7 +127,7 @@ public class TempService {
                 .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) <= -hours)
                 .collect(Collectors.toList());
 
-        result.forEach(System.out::println);
+//        result.forEach(System.out::println);
         return result;
     }
 

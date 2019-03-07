@@ -28,8 +28,7 @@ public class Temp {
 
     }
 
-    public Temp(int id, double humidity, double temperature, String date) {
-        this.id = id;
+    public Temp(double humidity, double temperature, String date) {
         this.humidity = humidity;
         this.temperature = temperature;
         this.date = date;
