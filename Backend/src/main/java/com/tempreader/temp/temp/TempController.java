@@ -16,6 +16,18 @@ public class TempController {
         String t ="werwerwerwerwer";
         // TODO remove year if lastTempDate
         model.addAttribute("lastTemp", tempService.getLastTempEntry());
+        //avg 1 hour
+        model.addAttribute("avgTempsInOneHour",tempService.getAverageTempInDurationHours(1));
+        model.addAttribute("avgHumidityInOneHour", tempService.getAverageHumidityInDurationHours(1));
+        //avg24hrs = 1day
+        model.addAttribute("avgTempsIn24Hour", tempService.getAverageTempInDurationHours(24));
+        model.addAttribute("avgHumidityIn24Hour", tempService.getAverageHumidityInDurationHours(24));
+        //avg168hrs = 7 Tage
+        model.addAttribute("avgTempsIn168Hour", tempService.getAverageTempInDurationHours(168));
+        model.addAttribute("avgHumidityIn168Hour", tempService.getAverageTempInDurationHours(168));
+        //avg720hrs = 30 Tage
+        model.addAttribute("avgTempsIn720Hour", tempService.getAverageTempInDurationHours(720));
+        model.addAttribute("avgHumidityIn720Hour", tempService.getAverageTempInDurationHours(720));
         model.addAttribute("temps",tempService.getTemps());
         model.addAttribute("t",t);
         return "tempStart";
