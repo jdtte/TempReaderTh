@@ -131,23 +131,23 @@ public class TempService {
         return result;
     }
 
-    public double getAverageTempInDurationHours(int hours) {
+    public String getAverageTempInDurationHours(int hours) {
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
         //TODO test
-        return sum / TempsListInHour.size();
+        return String.format("%.2f", sum / TempsListInHour.size());
     }
 
-    public double getAverageHumidityInDurationHours(int hours) {
+    public String getAverageHumidityInDurationHours(int hours) {
         //TODO test
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
 
-        return sum / TempsListInHour.size();
+        return String.format("%.2f", sum / TempsListInHour.size());
     }
 
 
