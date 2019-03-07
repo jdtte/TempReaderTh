@@ -2,6 +2,8 @@ package com.tempreader.temp.temp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -75,17 +77,28 @@ public class TempService {
         tempRepository.save(temp);
     }
 
+
     public Temp getLastTempEntry() {
+        //TODO; @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+        // If I use retTemp and edit it it gets saved to the database and readOnly didnt work
+
+
         Temp retTemp = tempRepository.findFirstByOrderByIdDesc();
-        String s = retTemp.getDate();
+        Temp retTempTest = new Temp();
+        retTempTest.setDate(retTemp.getDate());
+        retTempTest.setId(retTemp.getId());
+        retTempTest.setHumidity(retTemp.getHumidity());
+        retTempTest.setTemperature(retTemp.getTemperature());
+
+        String s = retTempTest.getDate();
 //        Pattern pattern = Pattern.compile("\\.\\d{2}\\s");
         //TODO maybe replace with stringutils for better performance?
         s = s.replaceAll("\\.\\d{2}\\s", ". ");
         s = s.replaceAll("\\:\\d{2}$", "");
-        retTemp.setDate(s);
+        retTempTest.setDate(s);
 
 //        s = Pattern.matches( "\\.\\d{2}\\s", "Hallo Welt");
-        return retTemp;
+        return retTempTest;
     }
 
 
@@ -103,11 +116,11 @@ public class TempService {
     public List<Temp> getTempsByLastHours(int hours) {
         //TODO test
         DateTimeFormatter tempFormat = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
-        Temp lastTemp = tempRepository.findFirstByOrderByIdDesc();
-
+//        Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
+        Temp lTemp = tempRepository.findAllByOrderByIdDesc().get(0);
         List<Temp> test = tempRepository.findAllByOrderByIdDesc();
 
-        LocalDateTime start = LocalDateTime.parse(lastTemp.getDate(), tempFormat);
+        LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
 
 
         List<Temp> result = test.stream()

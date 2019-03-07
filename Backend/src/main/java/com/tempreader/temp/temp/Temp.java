@@ -1,6 +1,6 @@
 package com.tempreader.temp.temp;
 
-import io.swagger.annotations.ApiModel;
+
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
