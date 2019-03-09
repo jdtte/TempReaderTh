@@ -38,6 +38,7 @@ public class TempApiController {
 
     @PostMapping(value = "/temps/add", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "Add a Temp")
+    //TODO ADD checks if Date ist correct with regex, make temp and humidity needed and send backstatus code
     public void addTemp(@RequestBody Temp temp) {
         tempservice.addTemp(temp);
     }
