@@ -43,21 +43,6 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!--todo-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>3.16.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zsoltfabok</groupId>
-            <artifactId>sqlite-dialect</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <dependency>
         <groupId>io.springfox</groupId>
