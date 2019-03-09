@@ -4,14 +4,26 @@ server:
 
 
 spring:
+  profiles:
+    include:
+  thymeleaf:
+    cache: false
   h2:
     console:
       enabled: true
       path: /h2-console
-  profiles:
-    include: test
-  thymeleaf:
-    cache: false
+  jpa:
+    hibernate:
+
+      ddl-auto: update
+  datasource:
+    name: temps
+    driverClassName: org.h2.Driver
+
+#    url: jdbc:h2:file:./temps;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+    url:;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE;DB_CLOSE_DELAY=-1;
+
+
 
 #  datasource:
 #    url: jdbc:mysql://localhost/TempDatabase
