@@ -20,6 +20,7 @@ public interface TempRepository extends JpaRepository<Temp, Long> {
 
     Temp findFirstByOrderByIdDesc();
 
+    Temp findFirstByOrderByIdAsc();
 
     List<Temp> findAllByOrderByIdDesc();
 

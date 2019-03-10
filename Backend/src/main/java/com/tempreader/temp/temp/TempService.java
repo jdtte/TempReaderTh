@@ -34,6 +34,7 @@ public class TempService {
     }
 
     public void addTemp(Temp temp) throws TempMissesInfoException, DateMissmatchException {
+
         if (temp.getHumidity() == 0 || temp.getTemperature() == 0 || (temp.getDate().isEmpty() || temp.getDate() == null)) {
             throw new TempMissesInfoException();
         }
@@ -121,17 +122,13 @@ public class TempService {
      * @return List of Temps
      */
     public List<Temp> getTempsByLastHours(int hours) {
-        //TODO test
+        //TODO: if there is not enough hours between start and offset(hours) it will not display anything BUG
         DateTimeFormatter tempFormat = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
-//        Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
-        Temp lTemp = tempRepository.findAllByOrderByIdDesc().get(0);
-        List<Temp> test = tempRepository.findAllByOrderByIdDesc();
 
+        Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
         LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
 
-
-        //        result.forEach(System.out::println);
-        return test.stream()
+        return tempRepository.findAllByOrderByIdDesc().stream()
                 .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) <= -hours)
                 .collect(Collectors.toList());
     }
@@ -141,6 +138,7 @@ public class TempService {
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
+
         //TODO test
         return String.format("%.2f", sum / TempsListInHour.size());
     }
@@ -151,7 +149,6 @@ public class TempService {
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
-
         return String.format("%.2f", sum / TempsListInHour.size());
     }
 
