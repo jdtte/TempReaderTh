@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class TempService {
 
+
     @Autowired
     private TempRepository tempRepository;
 
@@ -32,7 +33,13 @@ public class TempService {
         tempRepository.save(temp);
     }
 
-    public void addTemp(Temp temp) {
+    public void addTemp(Temp temp) throws TempMissesInfoException, DateMissmatchException {
+        if (temp.getHumidity() == 0 || temp.getTemperature() == 0 || (temp.getDate().isEmpty() || temp.getDate() == null)) {
+            throw new TempMissesInfoException();
+        }
+        if (!temp.getDate().matches("^\\d{2}.\\d{2}.\\d{2}\\s\\d{2}:\\d{2}:\\d{2}$")) {
+            throw new DateMissmatchException();
+        }
         temp.setId(0); //if id is sent, with post, remove it and use incremented id
         tempRepository.save(temp);
     }
