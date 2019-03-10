@@ -130,12 +130,10 @@ public class TempService {
         LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
 
 
-        List<Temp> result = test.stream()
+        //        result.forEach(System.out::println);
+        return test.stream()
                 .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) <= -hours)
                 .collect(Collectors.toList());
-
-//        result.forEach(System.out::println);
-        return result;
     }
 
     public String getAverageTempInDurationHours(int hours) {
