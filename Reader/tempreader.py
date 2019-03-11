@@ -26,8 +26,8 @@ if __name__ == '__main__':
             #     "temperature": 21
             json = {
                 "date": str(datetime.datetime.now().strftime("%d.%m.%y %H:%M:%S")),
-                "humidity": mean(minHumiditylist),
-                "temperature": mean(minTemplist)
+                "humidity": round(mean(minHumiditylist),2),
+                "temperature": round(mean(minTemplist),2)
             }
 
             try:
