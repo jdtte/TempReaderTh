@@ -34,7 +34,7 @@ if __name__ == '__main__':
                 postreq = requests.post(url=API_ENDPOINT, json=json, headers={'content-type': 'application/json'})
                 print(mean(minHumiditylist), mean(minTemplist), postreq.status_code, postreq)
             except:
-                print(error)
+                print("error")
             start = time.time()  # restarts timer
             minTemplist = []
             minHumiditylist = []
