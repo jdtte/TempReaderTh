@@ -104,7 +104,6 @@ public class TempService {
         s = s.replaceAll("\\:\\d{2}$", "");
         retTempTest.setDate(s);
 
-//        s = Pattern.matches( "\\.\\d{2}\\s", "Hallo Welt");
         return retTempTest;
     }
 

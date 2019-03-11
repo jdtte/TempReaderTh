@@ -1,9 +1,7 @@
 package com.tempreader.temp.temp;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,7 +13,7 @@ public class TempController {
     @GetMapping("/")
     public String showTemps(Model model) {
 
-        // TODO remove year if lastTempDate
+
         model.addAttribute("lastTemp", tempService.getLastTempEntry());
         //avg 1 hour
         model.addAttribute("avgTempsInOneHour",tempService.getAverageTempInDurationHours(1));
