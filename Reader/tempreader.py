@@ -5,7 +5,7 @@ import io
 import json
 import requests
 
-API_ENDPOINT = "127.0.0.1:8090/api/temps/add"
+API_ENDPOINT = "http://127.0.0.1:8090/api/temps/add"
 
 
 def mean(numbers):
