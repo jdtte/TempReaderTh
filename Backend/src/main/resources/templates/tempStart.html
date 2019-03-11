@@ -16,7 +16,7 @@
 <body>
 <main role="main" class="container">
     <div class="row" id="topCards">
-            <!--th:text="${lastTemp.id}+' '+ ${lastTemp.date}"-->
+        <!--th:text="${lastTemp.id}+' '+ ${lastTemp.date}"-->
         <div class="col-md-4">
             <div class="card">
                 <h4 th:text="${lastTemp.date}"></h4>
@@ -140,7 +140,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <h4 th:text="${avgTempIn720Hour}+' °C'"></h4>
+                                    <h4 th:text="${avgTempsIn720Hour}+' °C'"></h4>
                                     <hr/>
                                     <p>Temperatur</p>
                                 </div>
@@ -166,7 +166,7 @@
     <!--<h1 th:text="'asdad ' + ${t}"></h1>-->
     <!--<h2 th:text="${lastTemp.id}+' '+ ${lastTemp.date}"></h2>-->
     <!--<ul>-->
-        <!--<li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>-->
+    <!--<li th:each="temp:${temps}" th:text="${temp.date}+ ${temp.humidity}"></li>-->
 
     <!--</ul>-->
     <!--<h1>h</h1>-->
