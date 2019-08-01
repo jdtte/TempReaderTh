@@ -18,6 +18,7 @@ public class TempTestData {
     //'Time': 03.03.19 15:30:25, 'Humidity': 34.6, 'temp': 23.9
     @PostConstruct
     public void createTestData() {
+
         tempService.createTemp(new Temp(32.2, 22.9, "03.03.19 11:40:25"));
         tempService.createTemp(new Temp(33.6, 23.9, "02.02.19 20:40:25"));
         tempService.createTemp(new Temp( 34.5, 21.9, "01.03.19 15:40:25"));
@@ -230,6 +231,8 @@ public class TempTestData {
         tempService.createTemp(new Temp( 37.5, 23.9, "05.03.15 13:40:25"));
         tempService.createTemp(new Temp( 37.5, 23.9, "05.03.15 13:40:25"));
         tempService.createTemp(new Temp( 37.5, 23.9, "05.03.15 13:40:25"));
+        tempService.createTemp(new Temp(999, 1, "01.08.19 11:40:25"));
+        tempService.createTemp(new Temp(999, 1, "01.08.19 11:45:25"));
 
     }
 
