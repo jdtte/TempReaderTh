@@ -1,6 +1,8 @@
 package com.tempreader.temp.temp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -142,6 +144,7 @@ public class TempService {
         return String.format("%.2f", sum / TempsListInHour.size());
     }
 
+    @Cacheable(cacheNames = "averageTemps", key = "#hours")
     public String getAverageHumidityInDurationHours(int hours) {
         //TODO test
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
@@ -151,17 +154,30 @@ public class TempService {
         return String.format("%.2f", sum / TempsListInHour.size());
     }
 
-    @Scheduled(cron="0 30 3 1/3 * ? *") //At 03:30:00am, every 3 days starting on the 1st, every month
-    public String getAverageHumidityIn720HoursScheduled() {
+    @CachePut(cacheNames = "averageTemps", key = "#hours")
+    public String updateGetAverageHumidityInHours(int hours) {
         //TODO test
-        List<Temp> TempsListInHour = getTempsByLastHours(720);
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
         return String.format("%.2f", sum / TempsListInHour.size());
     }
 
+    @Scheduled(cron = "0 30 3 1/3 * ? *") //At 03:30:00am, every 3 days starting on the 1st, every month
+    public void updateAverageHumidityIn720HoursScheduled() {
+        updateGetAverageHumidityInHours(720);
+    }
 
+    @Scheduled(cron = "00 0/5 * * *") //At minute 0 past every 5th hour from 0 through 23.”
+    public void updateAverageHumidityIn168HoursScheduled() {
+        updateGetAverageHumidityInHours(168);
+    }
+
+    @Scheduled(cron = "1/5 * * * *") //At every 5th minute from 1 through 59.
+    public void updateAverageHumidityIn24HoursScheduled() {
+        updateGetAverageHumidityInHours(24);
+    }
 
 
 }
