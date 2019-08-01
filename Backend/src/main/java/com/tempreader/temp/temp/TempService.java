@@ -1,6 +1,7 @@
 package com.tempreader.temp.temp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
@@ -149,6 +150,18 @@ public class TempService {
                 .sum();
         return String.format("%.2f", sum / TempsListInHour.size());
     }
+
+    @Scheduled(cron="0 30 3 1/3 * ? *") //At 03:30:00am, every 3 days starting on the 1st, every month
+    public String getAverageHumidityIn720HoursScheduled() {
+        //TODO test
+        List<Temp> TempsListInHour = getTempsByLastHours(720);
+        double sum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getHumidity())
+                .sum();
+        return String.format("%.2f", sum / TempsListInHour.size());
+    }
+
+
 
 
 }
