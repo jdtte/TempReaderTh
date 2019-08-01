@@ -1,3 +1,13 @@
+#vars
+tempService:
+  fixedDelayUpdateAverageHumidityIn168HoursScheduled: 18000000
+
+
+logging:
+  file: ./logs/Temps.log
+  level:
+    root: info
+
 server:
   port: 8090
 spring:
