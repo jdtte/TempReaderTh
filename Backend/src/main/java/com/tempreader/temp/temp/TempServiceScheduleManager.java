@@ -18,25 +18,18 @@ public class TempServiceScheduleManager {
     @Scheduled(cron = "30 3 1/3 * * ?") //At 03:30:00am, every 3 days starting on the 1st, every month
     public void updateAverageHumidityAndTempsIn720HoursScheduled() {
         log.info("pdateAverageHumidityAndTempsIn720HoursScheduled: cronjob run, At 03:30:00am, every 3 days starting on the 1st, every month");
-//        tempService.updateGetAverageHumidityInHours(720);
-//        tempService.updateGetAverageTempInDurationHours(720);
         tempService.updateGetAverageTempAndHumidityInDurationHours(720);
     }
 
     @Scheduled(fixedDelayString = "${tempService.fixedDelayUpdateAverageHumidityIn168HoursScheduled}",initialDelay=50000) //5 hrs after last is done (value is in ms)
     public void updateAverageHumidityAndTempsIn168HoursScheduled() {
-
         log.info("updateAverageHumidityAndTempsIn168HoursScheduled: cronjob run, every 5 hrs");
-//        tempService.updateGetAverageHumidityInHours(168);
-//        tempService.updateGetAverageTempInDurationHours(168);
         tempService.updateGetAverageTempAndHumidityInDurationHours(168);
     }
 
     @Scheduled(fixedDelay = 300000,initialDelay=5000) // 5 Min after last is done (value is in ms)
     public void updateAverageHumidityAndTempsIn24HoursScheduled() {
         log.info("updateAverageHumidityAndTempsIn24HoursScheduled: cronjob run, every 5 min");
-//        tempService.updateGetAverageHumidityInHours(24);
-//        tempService.updateGetAverageTempInDurationHours(24);
         tempService.updateGetAverageTempAndHumidityInDurationHours(24);
     }
 

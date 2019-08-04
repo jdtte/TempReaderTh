@@ -19,7 +19,6 @@ public class TempController {
         String[] avgValues720hours = tempService.getAverageTempAndHumidityInDurationHours(720);
         model.addAttribute("lastTemp", tempService.getLastTempEntry());
         //avg 1 hour
-        //model.addAttribute("avgTempsInOneHour",tempService.getAverageTempInDurationHours(1));
         model.addAttribute("avgTempsInOneHour",avgValues1hour[0]);
         model.addAttribute("avgHumidityInOneHour", avgValues1hour[1]);
         //avg24hrs = 1day
@@ -31,16 +30,6 @@ public class TempController {
         //avg720hrs = 30 days
         model.addAttribute("avgTempsIn720Hour", avgValues720hours[0]);
         model.addAttribute("avgHumidityIn720Hour", avgValues720hours[1]);
-//        //avg24hrs = 1day
-//        model.addAttribute("avgTempsIn24Hour", tempService.getAverageTempInDurationHours(24));
-//        model.addAttribute("avgHumidityIn24Hour", tempService.getAverageHumidityInDurationHours(24));
-//        //avg168hrs = 7 days
-//        model.addAttribute("avgTempsIn168Hour", tempService.getAverageTempInDurationHours(168));
-//        model.addAttribute("avgHumidityIn168Hour", tempService.getAverageHumidityInDurationHours(168));
-//        //avg720hrs = 30 days
-//        model.addAttribute("avgTempsIn720Hour", tempService.getAverageTempInDurationHours(720));
-//        model.addAttribute("avgHumidityIn720Hour", tempService.getAverageHumidityInDurationHours(720));
-
         return "tempStart";
     }
 }
