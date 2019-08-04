@@ -16,7 +16,7 @@ public class TempApiController {
     @Autowired
     TempService tempservice;
 
-    @Autowired //TODO check
+    @Autowired
     TempServiceScheduleManager tempServiceScheduleManager;
 
     @GetMapping("/temps")
@@ -86,9 +86,9 @@ public class TempApiController {
     @RequestMapping(value = "/temps/clearcache", method= RequestMethod.GET)
     @ResponseBody
     public String clearTempsCache(){
-        tempServiceScheduleManager.updateAverageHumidityIn24HoursScheduled();
-        tempServiceScheduleManager.updateAverageHumidityIn168HoursScheduled();
-        tempServiceScheduleManager.updateAverageHumidityIn720HoursScheduled();
+        tempServiceScheduleManager.updateAverageHumidityAndTempsIn24HoursScheduled();
+        tempServiceScheduleManager.updateAverageHumidityAndTempsIn168HoursScheduled();
+        tempServiceScheduleManager.updateAverageHumidityAndTempsIn720HoursScheduled();
         return "cache cleared";
     }
 

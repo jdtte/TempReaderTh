@@ -132,40 +132,43 @@ public class TempService {
 
         Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
         LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
+        //TODO optimize, so it ends at first value and doesnt keep on checking all other values
         return tempRepository.findAllByOrderByIdDesc().stream()
                 .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) >= -hours)
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "averageTemps", condition = "#hours>1",key = "#root.args[0]", sync= true)
     public String getAverageTempInDurationHours(int hours) {
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
-
         //TODO test
         return String.format("%.2f", sum / TempsListInHour.size());
     }
 
-   @Cacheable(value = "averageTemps", condition = "#hours>1",key = "#root.args[0]", sync= true)
-    public String getAverageHumidityInDurationHours(int hours) {
+    @CachePut(value = "averageTemps", key = "#root.args[0]")
+    public String updateGetAverageTempInDurationHours(int hours) {
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        double sum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getTemperature())
+                .sum();
         //TODO test
-//        try { // TODO REMOVE
-//            long time = 10000L;
-//            Thread.sleep(time);
-//        } catch (InterruptedException e) {
-//            throw new IllegalStateException(e);
-//        }
+        return String.format("%.2f", sum / TempsListInHour.size());
+    }
+
+
+   @Cacheable(value = "averageHumidity", condition = "#hours>1",key = "#root.args[0]", sync= true)
+    public String getAverageHumidityInDurationHours(int hours) {
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
-        return String.format("%.2f %s", sum / TempsListInHour.size(), LocalDateTime.now());
+        return String.format("%.2f", sum / TempsListInHour.size());
     }
-//TODO cache update not working, it gets cached. need to test more
 
-
-    @CachePut(value = "averageTemps", key = "#root.args[0]")
+    @CachePut(value = "averageHumidity", key = "#root.args[0]")
     public String updateGetAverageHumidityInHours(int hours) {
         System.out.println("called update with hrs: " + hours);
         //TODO test
@@ -173,9 +176,7 @@ public class TempService {
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
-        return String.format("%.2f %s", sum / TempsListInHour.size(), LocalDateTime.now());
+        return String.format("%.2f", sum / TempsListInHour.size());
     }
-
-
 
 }

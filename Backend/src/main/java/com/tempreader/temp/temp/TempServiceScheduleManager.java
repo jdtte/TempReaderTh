@@ -13,25 +13,28 @@ public class TempServiceScheduleManager {
 
     @Autowired
     TempService tempService;
-    Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Scheduled(cron = "30 3 1/3 * * ?") //At 03:30:00am, every 3 days starting on the 1st, every month
-    public void updateAverageHumidityIn720HoursScheduled() {
-        log.info("updateAverageHumidityIn720HoursScheduled: cronjob run, At 03:30:00am, every 3 days starting on the 1st, every month");
+    public void updateAverageHumidityAndTempsIn720HoursScheduled() {
+        log.info("pdateAverageHumidityAndTempsIn720HoursScheduled: cronjob run, At 03:30:00am, every 3 days starting on the 1st, every month");
         tempService.updateGetAverageHumidityInHours(720);
+        tempService.updateGetAverageTempInDurationHours(720);
     }
 
     @Scheduled(fixedDelayString = "${tempService.fixedDelayUpdateAverageHumidityIn168HoursScheduled}",initialDelay=50000) //5 hrs after last is done (value is in ms)
-    public void updateAverageHumidityIn168HoursScheduled() {
+    public void updateAverageHumidityAndTempsIn168HoursScheduled() {
 
-        log.info("updateAverageHumidityIn168HoursScheduled: cronjob run, every 5 hrs");
+        log.info("updateAverageHumidityAndTempsIn168HoursScheduled: cronjob run, every 5 hrs");
         tempService.updateGetAverageHumidityInHours(168);
+        tempService.updateGetAverageTempInDurationHours(168);
     }
 
     @Scheduled(fixedDelay = 300000,initialDelay=5000) // 5 Min after last is done (value is in ms)
-    public void updateAverageHumidityIn24HoursScheduled() {
-        log.info("updateAverageHumidityIn24HoursScheduled: cronjob run, every 5 min");
+    public void updateAverageHumidityAndTempsIn24HoursScheduled() {
+        log.info("updateAverageHumidityAndTempsIn24HoursScheduled: cronjob run, every 5 min");
         tempService.updateGetAverageHumidityInHours(24);
+        tempService.updateGetAverageTempInDurationHours(24);
     }
 
 

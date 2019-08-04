@@ -12,7 +12,7 @@ public class TempController {
 
     @GetMapping("/")
     public String showTemps(Model model) {
-
+        //TODO add time to scheduled values, add into table (eg. Letzte 30 Tage (20.05.20 or time)
 
         model.addAttribute("lastTemp", tempService.getLastTempEntry());
         //avg 1 hour

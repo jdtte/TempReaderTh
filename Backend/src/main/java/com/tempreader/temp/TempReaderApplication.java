@@ -1,7 +1,6 @@
 package com.tempreader.temp;
 
-import com.tempreader.temp.temp.TempHourCacheKeyGenerator;
-import com.tempreader.temp.temp.TempServiceScheduleManager;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,9 +32,6 @@ public class TempReaderApplication {
                 .paths(PathSelectors.any()).build();
     }
 
-    @Bean("TempHourCacheKeyGenerator")
-    public KeyGenerator keyGenerator() {
-        return new TempHourCacheKeyGenerator();
-    }
+
 
 }
