@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -122,7 +123,7 @@ public class TempService {
     /**
      * Gets Temps in Temps from last temp -hours entered.
      * ex: Temps of last Hours: hours=1 last30Days =720
-     *
+     * Stops after first false, doesnt work if temps are out of order
      * @param hours hours for offset
      * @return List of Temps
      */
@@ -133,13 +134,19 @@ public class TempService {
         Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
         LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
         //TODO optimize, so it ends at first value and doesnt keep on checking all other values
-        return tempRepository.findAllByOrderByIdDesc().stream()
-                .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) >= -hours)
-                .collect(Collectors.toList());
+
+        List<Temp> list = new ArrayList<>();
+        for (Temp t : tempRepository.findAllByOrderByIdDesc()) {
+            if (ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) >= -hours) {
+                list.add(t);
+            } else break; //stops after first wrong, doenst work if temps are out of order
+        }
+        return list;
     }
 
     @Cacheable(value = "averageTemps", condition = "#hours>1",key = "#root.args[0]", sync= true)
     public String getAverageTempInDurationHours(int hours) {
+        //TODO optimize call amount
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
@@ -150,7 +157,7 @@ public class TempService {
 
     @CachePut(value = "averageTemps", key = "#root.args[0]")
     public String updateGetAverageTempInDurationHours(int hours) {
-        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
@@ -161,7 +168,7 @@ public class TempService {
 
    @Cacheable(value = "averageHumidity", condition = "#hours>1",key = "#root.args[0]", sync= true)
     public String getAverageHumidityInDurationHours(int hours) {
-        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
@@ -172,7 +179,7 @@ public class TempService {
     public String updateGetAverageHumidityInHours(int hours) {
         System.out.println("called update with hrs: " + hours);
         //TODO test
-        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
