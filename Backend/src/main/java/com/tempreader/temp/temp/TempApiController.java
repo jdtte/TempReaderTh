@@ -33,11 +33,30 @@ public class TempApiController {
         return tempservice.getTemp(id);
     }
 
+    @GetMapping("/temps/last")
+    @ApiOperation(value = "Search and Show last Temp with the Id", response = Temp.class)
+    public Temp getLastTemp() {
+        return tempservice.getLastTempEntry();
+    }
+
+    @GetMapping("/temps/last50") //TODO make number changeable
+    @ApiOperation(value = "Search and Show 1 Temp with the Id", response = Temp.class)
+    public List<Temp> getLast50temps(){
+        return tempservice.getLast50Temps();
+    }
+
     @PutMapping(value = "/temps/{id}", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "Updates for a Temp with the id", response = Temp.class)
     public void updateTemp(@RequestBody Temp temp) {
         tempservice.updateTemp(temp);
     }
+
+    @GetMapping("/temps/list/{amount}")
+    @ApiOperation(value = "Search and Show 1 Temp with the Id", response = Temp.class)
+    public List<Temp> getTempsList(@PathVariable int amount) {
+        return tempservice.getTempsByAmount(amount);
+    }
+
 
     @PostMapping(value = "/temps/add", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "Add a Temp")

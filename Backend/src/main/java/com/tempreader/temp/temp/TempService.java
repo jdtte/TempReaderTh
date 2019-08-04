@@ -3,10 +3,8 @@ package com.tempreader.temp.temp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
@@ -17,8 +15,6 @@ import java.time.temporal.ChronoUnit;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.stream.Collectors;
 
 @Service
 public class TempService {
@@ -82,6 +78,9 @@ public class TempService {
         } else return tempRepository.findAllByDateContainingIgnoreCase(String.format("%s.%s.%s ", day, month, year));
     }
 
+    public List<Temp> getLast50Temps(){
+        return tempRepository.findTop50ByOrderByIdDesc();
+    }
 
     /**
      * Creates Temp in Database, used for Test. Data does not get checked.
@@ -121,9 +120,10 @@ public class TempService {
     }
 
     /**
-     * Gets Temps in Temps from last temp -hours entered.
-     * ex: Temps of last Hours: hours=1 last30Days =720
-     * Stops after first false, doesnt work if temps are out of order
+     * Gets Temps in Temps from last temp - hours entered.
+     * ex: Temps of last Hours: hours= 1 last30Days = 720
+     * Stops after first false, doesnt work if temps are out of order.
+     * Uses estimated Value amount (1 Value = 1 Min) for DB optimization!
      *
      * @param hours hours for offset
      * @return List of Temps
@@ -131,16 +131,19 @@ public class TempService {
     public List<Temp> getTempsByLastHours(int hours) {
         //TODO: if there is not enough hours between start and offset(hours) it will not display anything BUG
         DateTimeFormatter tempFormat = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
+        int estimatedAmountOfValuesInHours = hours * 60 + 10; //1 Temp every Minute + buffer
+        System.out.println(estimatedAmountOfValuesInHours);
+        List<Temp> tempList = tempRepository.findTempsByAmount(estimatedAmountOfValuesInHours);
 
-        Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
+        Temp lTemp = tempList.get(tempList.size()-1); //last element
         LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
-        List<Temp> list = new ArrayList<>();
-        for (Temp t : tempRepository.findAllByOrderByIdDesc()) {
+        List<Temp> retList = new ArrayList<>();
+        for (Temp t : tempList) {
             if (ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) >= -hours) {
-                list.add(t);
+                retList.add(t);
             } else break; //stops after first wrong, doesnt work if temps are out of order
         }
-        return list;
+        return retList;
     }
 
     /**
@@ -179,5 +182,9 @@ public class TempService {
 
         return new String[]{String.format("%.2f", tempSum / TempsListInHour.size()),
                 String.format("%.2f", humiditySum / TempsListInHour.size())};
+    }
+
+    public List<Temp> getTempsByAmount(int amount){
+        return tempRepository.findTempsByAmount(amount);
     }
 }
