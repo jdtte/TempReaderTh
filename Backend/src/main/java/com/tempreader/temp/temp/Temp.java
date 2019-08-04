@@ -4,10 +4,11 @@ package com.tempreader.temp.temp;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
-public class Temp {
+public class Temp implements Serializable { //why? TODO
     //1,30.12f,22.2f,"27.02.19 15.11.44"
 //    @ApiModelProperty(example = "1", readOnly = true)
     @Id

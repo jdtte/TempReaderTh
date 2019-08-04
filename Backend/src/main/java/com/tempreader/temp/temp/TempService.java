@@ -3,6 +3,7 @@ package com.tempreader.temp.temp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -146,7 +147,7 @@ public class TempService {
         return String.format("%.2f", sum / TempsListInHour.size());
     }
 
-    //@Cacheable(cacheNames = "averageTemps", key = "#hours")
+   @Cacheable(value = "averageTemps", condition = "#hours>1",key = "#root.args[0]", sync= true)
     public String getAverageHumidityInDurationHours(int hours) {
         //TODO test
 //        try { // TODO REMOVE
@@ -159,38 +160,22 @@ public class TempService {
         double sum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
-        return String.format("%.2f", sum / TempsListInHour.size());
+        return String.format("%.2f %s", sum / TempsListInHour.size(), LocalDateTime.now());
     }
 //TODO cache update not working, it gets cached. need to test more
 
-//    @CachePut(cacheNames = "averageTemps", key = "#hours")
-//    public String updateGetAverageHumidityInHours(int hours) {
-//        //TODO test
-//        List<Temp> TempsListInHour = getTempsByLastHours(hours);
-//        double sum = TempsListInHour.stream()
-//                .mapToDouble(tempVal -> tempVal.getHumidity())
-//                .sum();
-//        return String.format("%.2f", sum / TempsListInHour.size());
-//    }
-//
-//    @Scheduled(cron = "30 3 1/3 * * ?") //At 03:30:00am, every 3 days starting on the 1st, every month
-//    public void updateAverageHumidityIn720HoursScheduled() {
-//        log.info("updateAverageHumidityIn720HoursScheduled: cronjob run, At 03:30:00am, every 3 days starting on the 1st, every month");
-//        updateGetAverageHumidityInHours(720);
-//    }
-//
-//    @Scheduled(fixedDelayString = "${tempService.fixedDelayUpdateAverageHumidityIn168HoursScheduled}",initialDelay=50000) //5 hrs after last is done (value is in ms)
-//    public void updateAverageHumidityIn168HoursScheduled() {
-//
-//        log.info("updateAverageHumidityIn168HoursScheduled: cronjob run, every 5 hrs");
-//        updateGetAverageHumidityInHours(168);
-//    }
-//
-//    @Scheduled(fixedDelay = 300000,initialDelay=5000) // 5 Min after last is done (value is in ms)
-//    public void updateAverageHumidityIn24HoursScheduled() {
-//        log.info("updateAverageHumidityIn24HoursScheduled: cronjob run, every 5 min");
-//        updateGetAverageHumidityInHours(24);
-//    }
+
+    @CachePut(value = "averageTemps", key = "#root.args[0]")
+    public String updateGetAverageHumidityInHours(int hours) {
+        System.out.println("called update with hrs: " + hours);
+        //TODO test
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        double sum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getHumidity())
+                .sum();
+        return String.format("%.2f %s", sum / TempsListInHour.size(), LocalDateTime.now());
+    }
+
 
 
 }

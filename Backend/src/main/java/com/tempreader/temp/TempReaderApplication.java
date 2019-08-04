@@ -1,9 +1,12 @@
 package com.tempreader.temp;
 
+import com.tempreader.temp.temp.TempHourCacheKeyGenerator;
+import com.tempreader.temp.temp.TempServiceScheduleManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.builders.PathSelectors;
@@ -29,4 +32,10 @@ public class TempReaderApplication {
                 .select().apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any()).build();
     }
+
+    @Bean("TempHourCacheKeyGenerator")
+    public KeyGenerator keyGenerator() {
+        return new TempHourCacheKeyGenerator();
+    }
+
 }
