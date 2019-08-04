@@ -21,13 +21,13 @@ public class TempServiceScheduleManager {
         tempService.updateGetAverageTempAndHumidityInDurationHours(720);
     }
 
-    @Scheduled(fixedDelayString = "${tempService.fixedDelayUpdateAverageHumidityIn168HoursScheduled}",initialDelay=50000) //5 hrs after last is done (value is in ms)
+    @Scheduled(fixedDelayString = "${tempService.fixedDelayUpdateAvgValuesIn168HoursScheduled}",initialDelay=50000) //5 hrs after last is done (value is in ms)
     public void updateAverageHumidityAndTempsIn168HoursScheduled() {
         log.info("updateAverageHumidityAndTempsIn168HoursScheduled: cronjob run, every 5 hrs");
         tempService.updateGetAverageTempAndHumidityInDurationHours(168);
     }
 
-    @Scheduled(fixedDelay = 300000,initialDelay=5000) // 5 Min after last is done (value is in ms)
+    @Scheduled(fixedDelayString = "${tempService.fixedDelayUpdateAvgValuesIn24HoursScheduled}",initialDelay=5000) // 5 Min after last is done (value is in ms)
     public void updateAverageHumidityAndTempsIn24HoursScheduled() {
         log.info("updateAverageHumidityAndTempsIn24HoursScheduled: cronjob run, every 5 min");
         tempService.updateGetAverageTempAndHumidityInDurationHours(24);

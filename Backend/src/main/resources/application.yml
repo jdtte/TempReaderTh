@@ -1,6 +1,7 @@
 #vars
 tempService:
-  fixedDelayUpdateAverageHumidityIn168HoursScheduled: 18000000
+  fixedDelayUpdateAvgValuesIn168HoursScheduled: 18000000 # 5 hrs
+  fixedDelayUpdateAvgValuesIn24HoursScheduled: 300000 # 5 min
 
 
 logging:
