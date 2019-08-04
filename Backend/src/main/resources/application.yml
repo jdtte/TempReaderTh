@@ -1,6 +1,7 @@
 #vars
 tempService:
-  fixedDelayUpdateAverageHumidityIn168HoursScheduled: 18000000
+  fixedDelayUpdateAvgValuesIn168HoursScheduled: 18000000 # 5 hrs
+  fixedDelayUpdateAvgValuesIn24HoursScheduled: 300000 # 5 min
 
 
 logging:
@@ -12,7 +13,7 @@ server:
   port: 8090
 spring:
   profiles:
-    include: test
+    include: #test
   thymeleaf:
     cache: false
   h2:
