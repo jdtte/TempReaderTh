@@ -1,6 +1,12 @@
 package com.tempreader.temp.temp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
@@ -9,13 +15,15 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.stream.Collectors;
 
 @Service
 public class TempService {
-
+    //logger sl4j
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private TempRepository tempRepository;
@@ -115,6 +123,7 @@ public class TempService {
     /**
      * Gets Temps in Temps from last temp -hours entered.
      * ex: Temps of last Hours: hours=1 last30Days =720
+     * Stops after first false, doesnt work if temps are out of order
      *
      * @param hours hours for offset
      * @return List of Temps
@@ -125,30 +134,50 @@ public class TempService {
 
         Temp lTemp = tempRepository.findFirstByOrderByIdDesc();
         LocalDateTime start = LocalDateTime.parse(lTemp.getDate(), tempFormat);
-
-        return tempRepository.findAllByOrderByIdDesc().stream()
-                .filter(t -> ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) <= -hours)
-                .collect(Collectors.toList());
+        List<Temp> list = new ArrayList<>();
+        for (Temp t : tempRepository.findAllByOrderByIdDesc()) {
+            if (ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) >= -hours) {
+                list.add(t);
+            } else break; //stops after first wrong, doesnt work if temps are out of order
+        }
+        return list;
     }
 
-    public String getAverageTempInDurationHours(int hours) {
+    /**
+     * Returns a String Array with avg Temps and Humidity rounded to 2 decimals
+     * Value 0 in Array is the avg Temp, Value 1 in Array is the avg Humidity
+     * @param hours
+     * @return String Array with avg Temps and Humidity
+     */
+    @Cacheable(value = "averageTemps", condition = "#hours>1", key = "#root.args[0]", sync = true)
+    public String[] getAverageTempAndHumidityInDurationHours(int hours) {
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
-        double sum = TempsListInHour.stream()
+        //gets Temp
+        double tempSum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
-
-        //TODO test
-        return String.format("%.2f", sum / TempsListInHour.size());
-    }
-
-    public String getAverageHumidityInDurationHours(int hours) {
-        //TODO test
-        List<Temp> TempsListInHour = getTempsByLastHours(hours);
-        double sum = TempsListInHour.stream()
+        //gets humidity
+        double humiditySum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
-        return String.format("%.2f", sum / TempsListInHour.size());
+
+        return new String[]{String.format("%.2f", tempSum / TempsListInHour.size()),
+                String.format("%.2f", humiditySum / TempsListInHour.size())};
     }
 
+    @CachePut(value = "averageTemps", key = "#root.args[0]")
+    public String[] updateGetAverageTempAndHumidityInDurationHours(int hours) {
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        //gets Temp
+        double tempSum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getTemperature())
+                .sum();
+        //gets humidity
+        double humiditySum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getHumidity())
+                .sum();
 
+        return new String[]{String.format("%.2f", tempSum / TempsListInHour.size()),
+                String.format("%.2f", humiditySum / TempsListInHour.size())};
+    }
 }

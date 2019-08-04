@@ -16,6 +16,9 @@ public class TempApiController {
     @Autowired
     TempService tempservice;
 
+    @Autowired
+    TempServiceScheduleManager tempServiceScheduleManager;
+
     @GetMapping("/temps")
     @ApiOperation(value = "Show all Temps", response = Temp.class)
     @ApiResponses(value = {
@@ -78,6 +81,15 @@ public class TempApiController {
         System.out.println(year);
 
         return tempservice.getTempsList(day, month, year);
+    }
+
+    @RequestMapping(value = "/temps/clearcache", method= RequestMethod.GET)
+    @ResponseBody
+    public String clearTempsCache(){
+        tempServiceScheduleManager.updateAverageHumidityAndTempsIn24HoursScheduled();
+        tempServiceScheduleManager.updateAverageHumidityAndTempsIn168HoursScheduled();
+        tempServiceScheduleManager.updateAverageHumidityAndTempsIn720HoursScheduled();
+        return "cache cleared";
     }
 
 }
