@@ -124,6 +124,7 @@ public class TempService {
      * Gets Temps in Temps from last temp -hours entered.
      * ex: Temps of last Hours: hours=1 last30Days =720
      * Stops after first false, doesnt work if temps are out of order
+     *
      * @param hours hours for offset
      * @return List of Temps
      */
@@ -139,51 +140,91 @@ public class TempService {
         for (Temp t : tempRepository.findAllByOrderByIdDesc()) {
             if (ChronoUnit.HOURS.between(start, LocalDateTime.parse(t.getDate(), tempFormat)) >= -hours) {
                 list.add(t);
-            } else break; //stops after first wrong, doenst work if temps are out of order
+            } else break; //stops after first wrong, doesnt work if temps are out of order
         }
         return list;
     }
 
-    @Cacheable(value = "averageTemps", condition = "#hours>1",key = "#root.args[0]", sync= true)
-    public String getAverageTempInDurationHours(int hours) {
-        //TODO optimize call amount
+    /**
+     * Returns a String Array with avg Temps and Humidity rounded to 2 decimals
+     * Value 0 in Array is the avg Temp, Value 1 in Array is the avg Humidity
+     * @param hours
+     * @return String Array with avg Temps and Humidity
+     */
+    @Cacheable(value = "averageTemps", condition = "#hours>1", key = "#root.args[0]", sync = true)
+    public String[] getAverageTempAndHumidityInDurationHours(int hours) {
         List<Temp> TempsListInHour = getTempsByLastHours(hours);
-        double sum = TempsListInHour.stream()
+        //gets Temp
+        double tempSum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
-        //TODO test
-        return String.format("%.2f", sum / TempsListInHour.size());
+        //gets humidity
+        double humiditySum = TempsListInHour.stream()
+                .mapToDouble(tempVal -> tempVal.getHumidity())
+                .sum();
+
+        return new String[]{String.format("%.2f", tempSum / TempsListInHour.size()),
+                String.format("%.2f", humiditySum / TempsListInHour.size())};
     }
+
+
+//    @Cacheable(value = "averageTemps", condition = "#hours>1", key = "#root.args[0]", sync = true)
+//    public String getAverageTempInDurationHours(int hours) {
+//        //TODO optimize call amount
+//        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+//        double sum = TempsListInHour.stream()
+//                .mapToDouble(tempVal -> tempVal.getTemperature())
+//                .sum();
+//        //TODO test
+//        return String.format("%.2f", sum / TempsListInHour.size());
+//    }
+//
+//    @CachePut(value = "averageTemps", key = "#root.args[0]")
+//    public String updateGetAverageTempInDurationHours(int hours) {
+//        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
+//        double sum = TempsListInHour.stream()
+//                .mapToDouble(tempVal -> tempVal.getTemperature())
+//                .sum();
+//        //TODO test
+//        return String.format("%.2f", sum / TempsListInHour.size());
+//    }
+//
 
     @CachePut(value = "averageTemps", key = "#root.args[0]")
-    public String updateGetAverageTempInDurationHours(int hours) {
-        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
-        double sum = TempsListInHour.stream()
+    public String[] updateGetAverageTempAndHumidityInDurationHours(int hours) {
+        List<Temp> TempsListInHour = getTempsByLastHours(hours);
+        //gets Temp
+        double tempSum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getTemperature())
                 .sum();
-        //TODO test
-        return String.format("%.2f", sum / TempsListInHour.size());
-    }
-
-
-   @Cacheable(value = "averageHumidity", condition = "#hours>1",key = "#root.args[0]", sync= true)
-    public String getAverageHumidityInDurationHours(int hours) {
-        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
-        double sum = TempsListInHour.stream()
+        //gets humidity
+        double humiditySum = TempsListInHour.stream()
                 .mapToDouble(tempVal -> tempVal.getHumidity())
                 .sum();
-        return String.format("%.2f", sum / TempsListInHour.size());
+
+        return new String[]{String.format("%.2f", tempSum / TempsListInHour.size()),
+                String.format("%.2f", humiditySum / TempsListInHour.size())};
     }
 
-    @CachePut(value = "averageHumidity", key = "#root.args[0]")
-    public String updateGetAverageHumidityInHours(int hours) {
-        System.out.println("called update with hrs: " + hours);
-        //TODO test
-        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
-        double sum = TempsListInHour.stream()
-                .mapToDouble(tempVal -> tempVal.getHumidity())
-                .sum();
-        return String.format("%.2f", sum / TempsListInHour.size());
-    }
+
+//    @Cacheable(value = "averageHumidity", condition = "#hours>1", key = "#root.args[0]", sync = true)
+//    public String getAverageHumidityInDurationHours(int hours) {
+//        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
+//        double sum = TempsListInHour.stream()
+//                .mapToDouble(tempVal -> tempVal.getHumidity())
+//                .sum();
+//        return String.format("%.2f", sum / TempsListInHour.size());
+//    }
+//
+//    @CachePut(value = "averageHumidity", key = "#root.args[0]")
+//    public String updateGetAverageHumidityInHours(int hours) {
+//        System.out.println("called update with hrs: " + hours);
+//        //TODO test
+//        List<Temp> TempsListInHour = getTempsByLastHours(hours); //TODO optimize call amount
+//        double sum = TempsListInHour.stream()
+//                .mapToDouble(tempVal -> tempVal.getHumidity())
+//                .sum();
+//        return String.format("%.2f", sum / TempsListInHour.size());
+//    }
 
 }
