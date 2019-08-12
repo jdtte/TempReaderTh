@@ -1,4 +1,12 @@
-# TempReader   
+# TempReader  
+Temperature value Spring Backend.
+
+Uses Thymeleaf as Frontend.
+
+Provides Rest-API for Tempreaders.
+
+Simple Tempreader in Python included
+
 <a href="https://trello.com/b/NtaghWS9/tempreader">
       <img src="https://img.shields.io/badge/trello-board-purple.svg">
   </a>
