@@ -1,9 +1,5 @@
 # TempReader  
-Temperature value Spring Backend.
-
-Uses Thymeleaf as Frontend.
-
-Provides Rest-API for Tempreaders.
+Temperature value Spring Backend. Uses Thymeleaf as Frontend. Provides Rest-API for Tempreaders.
 
 Simple Tempreader in Python included
 
@@ -18,3 +14,6 @@ Simple Tempreader in Python included
   * h2 / In Memory DB Url: /h2-console/ JDBC URL: jdbc:h2:mem:testdb (if no other db is provided)
   * mySql database
      * in Application.yml edit:  datasource to Database Url
+## Simple Dashboard Frontend
+
+![Website](https://raw.githubusercontent.com/JDEVDAIN/TempReaderTh/master/Website.PNG)
